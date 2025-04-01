@@ -1,0 +1,11 @@
+void setup() {
+    Serial.begin(9600);
+}
+void loop() {
+    double vol = analogRead(A0) * 4.887;
+    double tc = (vol - 500) * 0.1;
+    Serial.print("C: "); Serial.print(tc);
+    Serial.print(" | F: "); Serial.print(tc * 1.8 + 32);
+    Serial.print(" | H: "); Serial.println(map(analogRead(A1), 0, 1023, 10, 70));
+    delay(2000);
+}
