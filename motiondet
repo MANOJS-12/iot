@@ -1,0 +1,23 @@
+int pir = 7;
+int led = 12;
+void setup()
+{
+  pinMode(led, OUTPUT);
+  pinMode(pir, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int v = digitalRead(pir);
+  if(v==HIGH){
+    digitalWrite(led,HIGH);
+    Serial.println("Motion is Detected");
+  }
+  else{
+    digitalWrite(led,LOW);
+    Serial.println("Motion Is Not detected");
+
+  }
+  delay(3000);
+}
