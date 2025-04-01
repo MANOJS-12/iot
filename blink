@@ -1,0 +1,17 @@
+const int pulsePin = A0;  // Pulse sensor connected to A0
+int pulseValue = 0;       // Variable to store pulse value
+
+void setup() {
+  Serial.begin(9600);   // Start serial communication
+  pinMode(pulsePin, INPUT);  // Set pulsePin as input
+}
+
+void loop() {
+  pulseValue = analogRead(pulsePin);  // Read the pulse sensor value
+
+  // Print pulse value to the Serial Monitor
+  Serial.print("Pulse Value: ");
+  Serial.println(pulseValue);
+  
+  delay(500);  // Delay to update the value at a reasonable rate
+}
