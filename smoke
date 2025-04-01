@@ -1,0 +1,22 @@
+int smoke=A0;
+int buzzer=2;
+
+void setup()
+{
+  pinMode(buzzer,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int value=analogRead(smoke);
+  Serial.println("Smoke :");
+  Serial.println(value);
+  if(value>300){
+    digitalWrite(buzzer,HIGH);
+  }
+  else{
+    digitalWrite(buzzer,LOW);
+  }
+  delay(2000);
+}
