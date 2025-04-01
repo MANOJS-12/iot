@@ -15,3 +15,70 @@ void loop() {
   
   delay(500);  // Delay to update the value at a reasonable rate
 }
+--------------------------------
+#define USE_ARDUINO_INTERRUPTS true
+#include <PulseSensorPlayground.h>
+const int PULSE_SENSOR_PIN = 0;
+const int LED_PIN = 13;
+const int THRESHOLD = 550;
+PulseSensorPlayground pulseSensor;
+void setup() {
+  Serial.begin(9600);
+  pulseSensor.analogInput(PULSE_SENSOR_PIN);
+  pulseSensor.blinkOnPulse(LED_PIN);
+  pulseSensor.setThreshold(THRESHOLD);
+
+  if (pulseSensor.begin()) {
+    Serial.println("PulseSensor initialized successfully!");
+  }
+}
+void loop() {
+  int currentBPM = pulseSensor.getBeatsPerMinute();
+
+  if (pulseSensor.sawStartOfBeat()) {
+    Serial.println("♥ Heartbeat detected!");
+    Serial.print("BPM: ");
+    Serial.println(currentBPM);
+  }
+  delay(20);
+--------------------------------------------------------------------
+
+#include <ESP8266WiFi.h>       // Include ESP8266 WiFi library (use ESP32WiFi.h if using ESP32)
+#include <Blink.h>             // Include Blink library for communication with Blink app
+
+// Replace with your network credentials
+const char* ssid = "your_SSID";
+const char* password = "your_PASSWORD";
+
+// Set up Blink authentication token (you get this from the Blink app)
+char auth[] = "your_BLINK_AUTH_TOKEN";
+
+// Pin configuration
+const int pulsePin = A0;   // Pulse sensor connected to A0 (analog input pin)
+int pulseValue = 0;        // Variable to store pulse value
+
+void setup() {
+  // Start the serial communication
+  Serial.begin(115200);
+  pinMode(pulsePin, INPUT);
+
+  // Connect to WiFi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Connected to WiFi");
+
+  // Initialize Blink with authentication
+  Blink.begin(auth);
+}
+
+void loop() {
+  pulseValue = analogRead(pulsePin);  // Read pulse sensor value
+
+  // Send the pulse value to the Blink app
+  Blink.virtualWrite(0, pulseValue);  // Virtual Pin 0 is where the heart rate will be displayed
+
+  delay(500);  // Delay to update the value at a reasonable rate
+}
