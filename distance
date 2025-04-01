@@ -1,0 +1,18 @@
+const int trig = 6, echo = 7; 
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(trig, OUTPUT);
+    pinMode(echo, INPUT);
+}
+
+void loop() {
+    digitalWrite(trig, HIGH);
+    delay(1000);
+    digitalWrite(trig, LOW);
+
+    int distance = pulseIn(echo, HIGH) * 0.017;
+
+    Serial.println(distance);
+    delay(500);
+}
